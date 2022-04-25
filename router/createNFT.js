@@ -4,7 +4,6 @@ const router = express.Router();
 const createNFT = require("../model/nftCreateSchema");
 
 module.exports = router;
-
 router.post("/", async (req, res) => {
   const {
     // nftImg,
