@@ -9,7 +9,9 @@ const morgan = require("morgan");
 const app = express();
 const path = require("path");
 
-//var fs = require("fs");
+const uploadRoutes = require("./router/uploads");
+//const downloadRoutes = require("./router/uplo.js");
+
 dotenv.config({ path: "./config.env" });
 const cors = require("cors");
 app.use(cors());
@@ -30,10 +32,11 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(express.json());
 app.use(require("./router/auth"));
-app.use("/putdata", require("./router/uploads"));
+app.use("/putdata", uploadRoutes);
+app.use("/getdata", uploadRoutes);
 const PORT = process.env.PORT;
+
 mountRoutes(app);
-//app.post;
 
 app.listen(PORT, () => {
   console.log(`Server is Running at port ${PORT}`);

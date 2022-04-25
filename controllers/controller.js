@@ -1,5 +1,6 @@
 const UploadModel = require("../model/nftCreateSchema");
 const fs = require("fs");
+const bufferImage = require("buffer-image");
 
 exports.uploads = (req, res, next) => {
   const files = req.files;
@@ -9,7 +10,6 @@ exports.uploads = (req, res, next) => {
     error.httpStatusCode = 400;
     return next(error);
   }
-
   //convert Images to bit 64 encoding:
   let imgArray = files.map((file) => {
     let img = fs.readFileSync(file.path);
@@ -24,13 +24,15 @@ exports.uploads = (req, res, next) => {
       nftName: files[index].originalname,
       contentType: files[index].mimetype,
       nftImgBase64: src.toString("base64"),
-      nftsupply: req.body.nftsupply ? req.body.nftsupply : 0,
+      nftsupply: req.body.nftsupply ? req.body.nftsupply : 123,
       nftCollectionName: req.body.nftCollectionName,
       nftDescription: req.body.nftDescription
         ? req.body.nftDescription
-        : "Sample_nftDescription",
-      nftLink: req.body.nftLink ? req.body.nftLink : "Sample_nftLink",
-      nftImage: req.body.nftImage ? req.body.nftImage : "Sample_nftImage",
+        : "This-is-Sample_nftDescription",
+      nftLink: req.body.nftLink ? req.body.nftLink : "This-is-Sample_nftLink",
+      nftImage: req.body.nftImage
+        ? req.body.nftImage
+        : "This-is-Sample_nftImage",
     };
     let newUpload = new UploadModel(finalImage);
     return newUpload
@@ -48,7 +50,7 @@ exports.uploads = (req, res, next) => {
           return Promise.reject({
             error:
               error.message ||
-              `Cannot upload ${files[index].originalname} something is Missing`,
+              `Cannot upload ${files[index].originalname}, something is Missing`,
           });
         }
       });
@@ -61,4 +63,18 @@ exports.uploads = (req, res, next) => {
     .catch((err) => {
       res.json(err);
     });
+};
+
+exports.download = async (req, res, next) => {
+  const Image = await UploadModel.find();
+
+  // let data = Image[2];
+  // let result = Buffer.from(data.nftImgBase64, "base64");
+  // fs.writeFileSync(`./public/downloads/${data.nftName}`, result);
+
+  Image.map((img) => {
+    let data = img.nftImgBase64;
+    data = Buffer.from(data, "base64");
+    fs.writeFileSync(`./public/downloads/${img.nftName}`, data);
+  });
 };

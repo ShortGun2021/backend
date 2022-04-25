@@ -1,7 +1,8 @@
-const route = require("express").Router();
+const router = require("express").Router();
 const controller = require("../controllers/controller");
 const store = require("../middleware/multer");
 
-route.post("/uploadmultiple", store.array("image", 2), controller.uploads);
+router.post("/upload", store.array("image", 2), controller.uploads);
+router.get("/download", controller.download);
 
-module.exports = route;
+module.exports = router;
