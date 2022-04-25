@@ -8,6 +8,10 @@ const nftCreateSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  nftImgBase64: {
+    type: String,
+    required: true,
+  },
   nftName: {
     type: String,
     required: true,
