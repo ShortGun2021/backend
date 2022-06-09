@@ -213,4 +213,21 @@ router.get("/:userid/verify/:token", async (req, res) => {
   }
 });
 
+router.post("/walletAddress", async (req, res) => {
+  // res.send("Forgot password Route");
+  const { email, walletAddress } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: " User don't exist" });
+    }
+    await User.updateOne({ walletAddress: walletAddress });
+    res.status(200).send({ message: "Wallet Address Updated" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+    console.log(error);
+  }
+});
 module.exports = router;

@@ -13,12 +13,14 @@ dotenv.config();
 require("./db/conn");
 // const User = require('./model/userSchema');
 app.use(express.json());
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   res.send("Hello World from the Server");
 });
 
 app.use("/user", require("./router/auth"));
+app.use("/nft", require("./router/dTransfer"));
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
