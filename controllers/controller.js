@@ -3,6 +3,8 @@ const fs = require("fs");
 const bufferImage = require("buffer-image");
 
 exports.uploads = (req, res, next) => {
+  console.log("Inside the controller");
+  console.log(req.files);
   const files = req.files;
 
   if (!files) {
@@ -25,7 +27,9 @@ exports.uploads = (req, res, next) => {
       contentType: files[index].mimetype,
       nftImgBase64: src.toString("base64"),
       nftsupply: req.body.nftsupply ? req.body.nftsupply : 123,
-      nftCollectionName: req.body.nftCollectionName,
+      nftCollectionName: req.body.nftCollectionName
+        ? req.body.nftCollectionName
+        : "sample-collection",
       nftDescription: req.body.nftDescription
         ? req.body.nftDescription
         : "This-is-Sample_nftDescription",
@@ -66,15 +70,18 @@ exports.uploads = (req, res, next) => {
 };
 
 exports.download = async (req, res, next) => {
-  const Image = await UploadModel.find();
+  const Image = await UploadModel.find({});
 
-  // let data = Image[2];
-  // let result = Buffer.from(data.nftImgBase64, "base64");
-  // fs.writeFileSync(`./public/downloads/${data.nftName}`, result);
+  const vec = [];
+  //let data = Image[0];
+  //let result = Buffer.from(data.nftImgBase64, "base64");
+  //fs.writeFileSync(`./public/downloads/${data.nftName}`, result);
+  // res.status(200).json(data.nftImgBase64);
 
+  //send each image nftImgBase64 to the client:
   Image.map((img) => {
-    let data = img.nftImgBase64;
-    data = Buffer.from(data, "base64");
-    fs.writeFileSync(`./public/downloads/${img.nftName}`, data);
+    vec.push(img.nftImgBase64);
   });
+  console.log(vec);
+  res.status(200).send(vec);
 };

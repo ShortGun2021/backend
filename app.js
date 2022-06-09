@@ -9,7 +9,7 @@ const morgan = require("morgan");
 const app = express();
 const path = require("path");
 
-const uploadRoutes = require("./router/uploads");
+const DataTransferRoutes = require("./router/dTransfer");
 //const downloadRoutes = require("./router/uplo.js");
 
 dotenv.config({ path: "./config.env" });
@@ -32,8 +32,8 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(express.json());
 app.use(require("./router/auth"));
-app.use("/putdata", uploadRoutes);
-app.use("/getdata", uploadRoutes);
+app.use("/putdata", DataTransferRoutes);
+app.use("/getdata", DataTransferRoutes);
 const PORT = process.env.PORT;
 
 mountRoutes(app);
