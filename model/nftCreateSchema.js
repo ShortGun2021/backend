@@ -28,15 +28,23 @@ const nftCreateSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  //fake nft creator details
+  // nftCreatorDetails: {
+  //   files: [{ uri: String, type: String }],
+  //   category: String,
+  //   creators: [
+  //     {
+  //       address: String,
+  //       share: Number,
+  //     },
+  //   ],
+  // },
+
   nftCreatorDetails: {
-    files: [{ uri: String, type: String }],
-    category: String,
-    creators: [
-      {
-        address: String,
-        share: Number,
-      },
-    ],
+    type: String,
+    required: true,
+    default: "",
   },
   nftproperties: {
     type: Array,
