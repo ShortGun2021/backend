@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", require("./router/auth"));
+app.use("/nft", require("./router/NFTs"));
 app.use("/nft", require("./router/dTransfer"));
 
 const PORT = process.env.PORT;

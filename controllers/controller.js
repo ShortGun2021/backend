@@ -37,6 +37,9 @@ exports.uploads = (req, res, next) => {
       nftImage: req.body.nftImage
         ? req.body.nftImage
         : "This-is-Sample_nftImage",
+      nftCreatorDetails: req.body.nftCreatorDetails
+        ? req.body.nftCreatorDetails
+        : "",
     };
     let newUpload = new UploadModel(finalImage);
     return newUpload
@@ -73,15 +76,23 @@ exports.download = async (req, res, next) => {
   const Image = await UploadModel.find({});
 
   const vec = [];
-  // let data = Image[0];
-  // let result = Buffer.from(data.nftImgBase64, "base64");
-  // fs.writeFileSync(`./public/downloads/${data.nftName}`, result);
-  // res.status(200).json(data.nftImgBase64);
+  let data = Image[0];
+  let result = Buffer.from(data.nftImgBase64, "base64");
+  fs.writeFileSync(`./public/downloads/${data.nftName}`, result);
+  res.status(200).json(data.nftImgBase64);
 
   //send each image nftImgBase64 to the client:
   Image.map((img) => {
     vec.push(img.nftImgBase64);
-  });
+  })
+    .then((msg) => {
+      // res.json(msg);
+      //res.redirect("/");
+      res.status(200).send(vec);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
   console.log(vec);
-  res.status(200).send(vec);
+  // res.status(200).send(vec);
 };
