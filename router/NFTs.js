@@ -8,8 +8,8 @@ router.get("/getNFTs", async (req, res) => {
   // res.status(200).json(req.rootUser);
   try {
     const images = await ImageInfo.find({});
-    // console.log(images);
     if (!images) return res.status(400).send({ message: "Invalid link" });
+    // console.log(images);
     else {
       res.status(200).send(images);
       // res.status(200).send(images);
