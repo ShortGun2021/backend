@@ -24,16 +24,19 @@ router.post("/buyNFTs", async (req, res) => {
   // console.log(req.rootUser);
   // res.status(200).json(req.rootUser);
   try {
-    const { creatorEmail, buyerEmail } = req.body;
+    const { nftID, buyerEmail } = req.body;
     //buyeremail is posted from local storage
-    // console.log(images);
+    console.log("working");
+    console.log(nftID);
+    console.log(buyerEmail);
     if (!buyerEmail) return res.status(400).send({ message: "No Buyer Email" });
     const nftCreator = await ImageInfo.findOne({
-      nftCreatorDetails: creatorEmail,
+      _id: nftID,
+      // nftCreatorDetails: creatorEmail,
     });
 
-    nftCreator.nftCreatorDetails = req.body.buyerEmail;
-    await user.save();
+    // nftCreator.nftCreatorDetails = req.body.buyerEmail;
+    await ImageInfo.updateOne({ nftCreatorDetails: req.body.buyerEmail });
     res.status(201).json({
       message: "NFT Buying Success. Creator Updated",
     });
