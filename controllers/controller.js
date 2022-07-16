@@ -1,4 +1,4 @@
-const UploadModel = require("../model/nftCreateSchema");
+const UploadModel = require("../model/nftDetailSchema");
 const fs = require("fs");
 const bufferImage = require("buffer-image");
 
