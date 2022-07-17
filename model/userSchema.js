@@ -6,19 +6,15 @@ const crypto = require("crypto");
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    default: "",
   },
   email: {
     type: String,
-    required: true,
+    default: "",
   },
   publicID: {
     type: String,
     required: true,
-  },
-  walletAddress: {
-    type: String,
-    default: "",
   },
   verified: {
     type: Boolean,

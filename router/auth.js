@@ -59,10 +59,10 @@ router.post("/signin", async (req, res) => {
       });
       // console.log(userLogin.name);
 
-      const { _id, name, email } = userLogin;
+      const { _id, publicID } = userLogin;
       res.status(201).json({
         token,
-        user: { _id, email, name },
+        user: { _id, publicID },
       });
     } else return res.status(400).json({ error: "Invaid Credentials!" });
   } catch (err) {
