@@ -6,7 +6,12 @@ const cors = require("cors");
 const Router = express.Router();
 
 const app = express();
-app.use(cors());
+// app.use(cors());
+var corsOptions = {
+  origin: '*',
+  methods: "GET, PUT, POST"
+}
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "30mb" }));
 dotenv.config();
 
@@ -18,6 +23,7 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.send("Hello World from the Server");
 });
+
 
 app.use("/user", require("./router/auth"));
 app.use("/nft", require("./router/NFTs"));
